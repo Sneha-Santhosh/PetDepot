@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title> Vue.js Pet Depot</title>
+        <script src="https://unpkg.com/vue"></script>
+        <link rel="stylesheet" type="text/css" href="C:/PersonalProjects/Learning/VueJs In Action/assets/css/app.css"/>
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">/> -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+    </head>
+    <body>
+        <div id="app">
+            <header>
+                <h1 v-text="sitename"></h1>
+            </header>
+        </div>
+
+        <script type = "text/javascript">
+            var APP_LOG_LIFECYCLE_EVENTS = true;
+            var webstore = new Vue({
+                el: '#app',
+                data: {
+                    sitename: 'Vue.js Pet Depot'
+                },
+                beforeCreate: function() {
+                    if (APP_LOG_LIFECYCLE_EVENTS) {
+                        console.log("beforeCreate");
+                    }
+                },
+                created: function() {
+                    if (APP_LOG_LIFECYCLE_EVENTS) {
+                        console.log("created");
+                    }
+                },
+                beforeMount: function() {
+                    if (APP_LOG_LIFECYCLE_EVENTS) {
+                        console.log("beforeMount");
+                    }
+                },
+                mounted: function() {
+                    if (APP_LOG_LIFECYCLE_EVENTS) {
+                        console.log("mounted");
+                    }
+                },
+                beforeUpdate: function() {
+                    if (APP_LOG_LIFECYCLE_EVENTS) {
+                        console.log("beforeUpdate")
+                    }
+                },
+                updated: function() {
+                    if (APP_LOG_LIFECYCLE_EVENTS) {
+                        console.log("updated");
+                    }
+                },
+                beforeDestroy: function() {
+                    if (APP_LOG_LIFECYCLE_EVENTS) {
+                        console.log("beforeDestroy");
+                    }
+                },
+                destroyed: function() {
+                    if (APP_LOG_LIFECYCLE_EVENTS) {
+                        console.log("destroyed");
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
