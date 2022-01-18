@@ -30,6 +30,7 @@
                         <h1 v-text="product.title"></h1>
                         <p v-html="product.description"></p>
                         <p class="price"> {{ product.price | formatPrice }} </p>
+                        <button class="btn-primary" v-on:click="addToCart">Add to cart</button>
                     </div>
                 </div>
             </main>
@@ -48,7 +49,8 @@
                         "organic goodness for your cat.",
                         price: 2000,
                         image: "assets/images/catfood.jpg"
-                    }
+                    },
+                    cart: []
                 },
                 filters: {
                     formatPrice: function(price) {
@@ -71,6 +73,11 @@
                     cartItemCount: function() {
                         return this.cart.length || '';
                     }
+                methods: {
+                    addToCart:function() {
+                        this.cart.push( this.product.id );
+                    }
+
                 },
                 beforeCreate: function() {
                     if (APP_LOG_LIFECYCLE_EVENTS) {
