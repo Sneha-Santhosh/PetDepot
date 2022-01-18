@@ -10,7 +10,14 @@
     <body>
         <div id="app">
             <header>
-                <h1 v-text="sitename"></h1>
+                <div class ="navbar navbar-default">
+                    <h1> {{ sitename }} </h1>
+                </div>
+                <div class ="nav navbar-nav navbar-right cart">
+                    <span class ="glyphicon glyphicon-shopping cart">
+                        {{ cartItemCount }}
+                    </span>
+                </div>
             </header>
             <main>
                 <div class = "row product">
@@ -58,6 +65,11 @@
                         } else {
                             return "$" + (price / 100).toFixed(2);
                         }
+                    }
+                },
+                computed: {
+                    cartItemCount: function() {
+                        return this.cart.length || '';
                     }
                 },
                 beforeCreate: function() {
