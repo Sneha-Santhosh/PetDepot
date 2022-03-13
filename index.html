@@ -1,30 +1,51 @@
 <html>
     <head>
         <title> Vue.js Pet Depot</title>
-        <script src="https://unpkg.com/vue"></script>
+        <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
         <link rel="stylesheet" type="text/css" href="C:/PersonalProjects/Learning/VueJs In Action/assets/css/app.css"/>
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">/> -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
         
     </head>
     <body>
         <div id="app">
             <header>
-                <h1 v-text="sitename"></h1>
+                <div class ="navbar navbar-expand-lg navbar-brand">
+                    <h1> {{ sitename }} </h1>
+                </div>
+                <div class ="navbar navbar-nav navbar-right cart">
+                    <button type="button" 
+                    class="btn btn-primary btn-lg"
+                    v-on:click="showCheckout">
+                        <i class="fa fa-shopping-cart fa-2x" aria-hidden="true">   {{ cartItemCount }} </i>   
+                    Checkout
+                    </button>                 
+                </div>
             </header>
             <main>
                 <div class = "row product">
-                    <div class = "col">
-                        <figure>
-                            <img v-bind:src="product.image">
-                        </figure>
+                    <div v-if="showProduct">
+                        <div class = "col">
+                            <figure>
+                                <img v-bind:src="product.image">
+                            </figure>
+                        </div>
+                        <div class="col col-expand">
+                            <h1 v-text="product.title"></h1>
+                            <p v-html="product.description"></p>
+                            <p class="price"> {{ product.price | formatPrice }} </p>
+                            <button class="btn-primary" 
+                            v-on:click="addToCart"
+                            v-if="canAddToCart">Add to cart</button>
+                            <button class="disabled"
+                            v-else>Add to cart</button>
+                        </div>
                     </div>
-                    <div class="col col-expand">
-                        <h1 v-text="product.title"></h1>
-                        <p v-html="product.description"></p>
-                        <p class="price"> {{ product.price | formatPrice }} </p>
-                        <button class="btn-primary" v-on:click="addToCart">Add to cart</button>
-                    </div>
+                <div v-else>
+                    
+                </div>
+                    
                 </div>
             </main>
         </div>
@@ -41,9 +62,11 @@
                         description: "A 20 pound bag of <em> irrestible</em>, "+
                         "organic goodness for your cat.",
                         price: 2000,
-                        image: "assets/images/catfood.jpg"
+                        image: "assets/images/catfood.jpg",
+                        availableInventory: 5
                     },
-                    cart: []
+                    cart: [],
+                    showProduct: true
                 },
                 filters: {
                     formatPrice: function(price) {
@@ -62,11 +85,21 @@
                         }
                     }
                 },
+                computed: {
+                    cartItemCount: function() {
+                        return this.cart.length || '';
+                    },
+                    canAddToCart: function() {
+                        return this.product.availableInventory > this.cartItemCount;
+                    }
+                },
                 methods: {
                     addToCart:function() {
                         this.cart.push( this.product.id );
+                    },
+                    showCheckout() {
+                        this.showProduct = this.showProduct ? false : true;
                     }
-
                 },
                 beforeCreate: function() {
                     if (APP_LOG_LIFECYCLE_EVENTS) {
