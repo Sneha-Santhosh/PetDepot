@@ -15,26 +15,37 @@
                     <h1> {{ sitename }} </h1>
                 </div>
                 <div class ="navbar navbar-nav navbar-right cart">
-                    <i class="fa fa-shopping-cart fa-2x" aria-hidden="true">   {{ cartItemCount }} </i>                    
+                    <button type="button" 
+                    class="btn btn-primary btn-lg"
+                    v-on:click="showCheckout">
+                        <i class="fa fa-shopping-cart fa-2x" aria-hidden="true">   {{ cartItemCount }} </i>   
+                    Checkout
+                    </button>                 
                 </div>
             </header>
             <main>
                 <div class = "row product">
-                    <div class = "col">
-                        <figure>
-                            <img v-bind:src="product.image">
-                        </figure>
+                    <div v-if="showProduct">
+                        <div class = "col">
+                            <figure>
+                                <img v-bind:src="product.image">
+                            </figure>
+                        </div>
+                        <div class="col col-expand">
+                            <h1 v-text="product.title"></h1>
+                            <p v-html="product.description"></p>
+                            <p class="price"> {{ product.price | formatPrice }} </p>
+                            <button class="btn-primary" 
+                            v-on:click="addToCart"
+                            v-if="canAddToCart">Add to cart</button>
+                            <button class="disabled"
+                            v-else>Add to cart</button>
+                        </div>
                     </div>
-                    <div class="col col-expand">
-                        <h1 v-text="product.title"></h1>
-                        <p v-html="product.description"></p>
-                        <p class="price"> {{ product.price | formatPrice }} </p>
-                        <button class="btn-primary" 
-                        v-on:click="addToCart"
-                        v-if="canAddToCart">Add to cart</button>
-                        <button class="disabled"
-                        v-else>Add to cart</button>
-                    </div>
+                <div v-else>
+                    
+                </div>
+                    
                 </div>
             </main>
         </div>
@@ -54,7 +65,8 @@
                         image: "assets/images/catfood.jpg",
                         availableInventory: 5
                     },
-                    cart: []
+                    cart: [],
+                    showProduct: true
                 },
                 filters: {
                     formatPrice: function(price) {
@@ -84,8 +96,10 @@
                 methods: {
                     addToCart:function() {
                         this.cart.push( this.product.id );
+                    },
+                    showCheckout() {
+                        this.showProduct = this.showProduct ? false : true;
                     }
-
                 },
                 beforeCreate: function() {
                     if (APP_LOG_LIFECYCLE_EVENTS) {
